@@ -1,0 +1,44 @@
+{% extends "hometemplate.html" %}
+
+{% set active_page = "home" %}
+
+{% block content %}
+    <div class="jumbotron text-white bg-dark m-4 p-5 rounded shadow-lg" id="jumbotron" style="background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('static/ai_background_transBLABLA.jpg'); background-size: cover; background-position: center;">
+        <div class="container fadeIn text-center">
+            <h3 class="display-3 font-weight-bold">Early Diabetes Risk Identification</h3>
+            <p class="lead">A quick and efficient way to predict diabetes .</p>
+        </div>
+    </div>
+</div>
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 fadeInUp d-flex">
+                <div class="card mb-4 shadow-lg border-0 rounded-lg flex-fill">
+                    <div class="d-flex justify-content-center text-primary mt-4 icons">
+                        <span class="fa fa-flask fa-4x"></span>
+                    </div>
+                    <div class="card-body text-center">
+                        <h4 class="font-weight-bold">Make a Prediction</h4>
+                        <p> Utilize a trained machine learning model for quick diabetes diagnosis.</p>
+                        <a class="btn btn-primary" href="{{ url_for('diagnose') }}" role="button">Try Now &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fadeInUp first d-flex">
+                <div class="card mb-4 shadow-lg border-0 rounded-lg flex-fill">
+                    <div class="d-flex justify-content-center text-success mt-4 icons">
+                        <span class="fa fa-bar-chart fa-4x"></span>
+                    </div>
+                    <div class="card-body text-center">
+                        <h4 class="font-weight-bold">View the Data</h4>
+                        <p>Explore the dataset used to train the model and relevant insights.</p>
+                        <a class="btn btn-success" href="/dashapp/" role="button">View Data &raquo;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

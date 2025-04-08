@@ -1,0 +1,89 @@
+{% extends "template.html" %}
+
+{% set active_page = "diagnose" %}
+
+{% block content %}
+<div class="container shadow-lg rounded fadeIn p-5 my-5 bg-light" id="content">
+    <h2 class="text-center text-primary">Diabetes Status Diagnosis</h2>
+    <br>
+    <div class="container">
+        <form action="" id="diagnosis-form" method="post" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="mb-4 col-md-2">
+                    {{ form.age.label(class_="form-label fw-bold") }}
+                    {{ form.age(class_="form-control", placeholder="Enter Age") }}
+                </div>
+                <div class="mb-4 col-md-3">
+                    {{ form.gender.label(class_="form-label fw-bold") }}
+                    {{ form.gender(class_="form-select") }}
+                </div>
+            </div>
+            <p class="fw-semibold">Please select if you have any of the following health conditions:</p><br>
+            <div class="row">
+                <div class="form-check mb-4 col-md-3">
+                    {{ form.hypertension(class_="form-check-input") }}
+                    {{ form.hypertension.label(class_="form-check-label fw-normal") }}
+                </div>
+                <div class="form-check mb-4 col-md-3">
+                    {{ form.heart_disease(class_="form-check-input") }}
+                    {{ form.heart_disease.label(class_="form-check-label fw-normal") }}
+                </div>
+                <div class="mb-4 col-md-3">
+                    {{ form.smoking_history.label(class_="form-label fw-bold") }}
+                    {{ form.smoking_history(class_="form-select") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-4 col-md-3">
+                    {{ form.bmi.label(class_="form-label fw-bold") }}
+                    {{ form.bmi(class_="form-control", placeholder="Enter BMI") }}
+                </div>
+                <div class="mb-4 col-md-3">
+                    {{ form.HbA1c_level.label(class_="form-label fw-bold") }}
+                    {{ form.HbA1c_level(class_="form-control", placeholder="HbA1c Level") }}
+                </div>
+                <div class="mb-4 col-md-3">
+                    {{ form.blood_glucose_level.label(class_="form-label fw-bold") }}
+                    {{ form.blood_glucose_level(class_="form-control", placeholder="Blood Glucose Level") }}
+                </div>
+            </div>
+            <div class="text-center my-4">
+                {{ form.submit(class_="btn btn-primary px-4 py-2 fw-bold") }}
+            </div>
+        </form>
+
+        <br>
+        <div class="alert alert-info shadow text-center fw-bold" id="diagnosis-result" role="alert"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#diagnosis-form').submit(function (e) {
+            e.preventDefault();
+            var url = "{{ url_for('diagnosis') }}";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $('form').serialize(),
+                success: function (data) {
+                    $('#diagnosis-result').fadeOut('fast', () => {
+                        $('#diagnosis-result').html("Prediction diagnosis: <strong>" + data.prediction + "</strong><br> Prediction accuracy: <strong>" + data.accuracy + "</strong>");
+                    }).fadeIn('slow');
+                }
+            });
+        });
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
+                }
+            }
+        })
+    });
+</script>
+
+{% endblock %}
